@@ -1,0 +1,23 @@
+{
+  "name": "whoshiring",
+  "version": "1.0.0",
+  "description": "Search the latest Hacker News Who's Hiring thread",
+  "bin": "./main.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "author": "ziel",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.2.1",
+    "hacker-news-api": "^2.0.0",
+    "html2plaintext": "^1.0.1",
+    "word-wrap": "^1.1.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "mockery": "^1.4.0",
+    "sinon": "^1.17.3"
+  }
+}
