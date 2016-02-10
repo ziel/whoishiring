@@ -2,7 +2,7 @@
 
 const WhosHiring = require('./lib/whoshiring'),
       Wrap       = require('word-wrap'),
-      H2P        = require('html2plaintext'),
+      Plaintext  = require('html2plaintext'),
       Promise    = require('bluebird')
 
 /**
@@ -23,7 +23,7 @@ const wraplimit = 78
  */
 function fmtitem(html) {
   let wrapopts = {width: wraplimit, indent: "  "}
-  let output   = Wrap(H2P(html), wrapopts)
+  let output   = Wrap(Plaintext(html), wrapopts)
   return `\n\n---\n\n${output}`
 }
 
@@ -59,8 +59,7 @@ function inputstring() {
     println(yield WhosHiring.url())
     println(yield WhosHiring.title())
 
-    WhosHiring.filtered(term).
-      map(fmtitem).
-      each(println)
+    let matches = yield WhosHiring.matches(term)
+    matches.forEach(m => { println(fmtitem(m)) })
   })()
 }
