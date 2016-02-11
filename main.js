@@ -28,17 +28,6 @@ function fmtitem(html) {
 }
 
 /**
- * Print the given var to the console.
- *
- * n.b. This is useful because console.log will
- *      accept additional variables, but this supresses
- *      that behavior, printing only the one variable.
- */
-function println(output) {
-  console.log(output)
-}
-
-/**
  * Returns the args passed on the cli as a single string
  *
  * @return string arguments
@@ -56,10 +45,10 @@ function inputstring() {
   let term = inputstring()
 
   Promise.coroutine(function *() {
-    println(yield WhosHiring.url())
-    println(yield WhosHiring.title())
+    console.log(yield WhosHiring.url())
+    console.log(yield WhosHiring.title())
 
     let matches = yield WhosHiring.matches(term)
-    matches.forEach(m => { println(fmtitem(m)) })
+    matches.forEach(m => { console.log(fmtitem(m)) })
   })()
 }
