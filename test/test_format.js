@@ -1,7 +1,6 @@
 "use strict";
 
 const expect = require('chai').expect,
-      sinon  = require('sinon'),
       Format = require('../lib/format')
 
 
