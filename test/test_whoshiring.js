@@ -2,7 +2,6 @@
 
 const expect  = require('chai').expect,
       sinon   = require('sinon'),
-      mockery = require('mockery'),
       WhosHiring = require('../lib/whoshiring'),
       HNSearch = require('hacker-news-api')
 
