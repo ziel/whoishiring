@@ -8,9 +8,9 @@ const expect  = require('chai').expect,
 
 describe("WhosHiring", function() {
 
-  // ----------------------------------
-  // todo: docs fixtures
-  // ----------------------------------
+  // -------------------------------------------------------------
+  // Fixtures
+  // -------------------------------------------------------------
 
   const mock_objectID = 123,
         mock_title    = "title text",
@@ -33,9 +33,9 @@ describe("WhosHiring", function() {
     hits: mock_matches
   })
 
-  // ----------------------------------
-  // todo: docs spy setup
-  // ----------------------------------
+  // -------------------------------------------------------------
+  // Sinon sandbox setup/teardown
+  // -------------------------------------------------------------
 
   let sinonbox = sinon.sandbox.create({
     useFakeTimers: false,
@@ -62,9 +62,9 @@ describe("WhosHiring", function() {
     WhosHiring.reset_story_cache()
   })
 
-  // ----------------------------------
-  // tests
-  // ----------------------------------
+  // -------------------------------------------------------------
+  // Tests
+  // -------------------------------------------------------------
 
   describe("WhosHiring.url()", function() {
     it("should only call searchAsync once", function() {
