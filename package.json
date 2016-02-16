@@ -5,9 +5,11 @@
   "bin": "./main.js",
   "scripts": {
     "lint": "strict-standard",
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha",
+    "posttest": "npm run lint"
   },
   "author": "ziel",
+  "repository": "github:ziel/whoshiring",
   "license": "MIT",
   "dependencies": {
     "bluebird": "^3.2.1",
