@@ -1,27 +1,39 @@
-"use strict";
+'use strict'
 
-const WhosHiring = require('./lib/whoshiring'),
-      Format     = require('./lib/format'),
-      Output     = require('./lib/output'),
-      Spinner    = require('cli-spinner').Spinner,
-      Promise    = require('bluebird')
+const WhosHiring = require('./lib/whoshiring')
+const Format = require('./lib/format')
+const Output = require('./lib/output')
+const Promise = require('bluebird')
 
+// Add a newline to a string
+//
+// @param {string} str
+// The string to add to
+//
+// @return {string}
+// The given string with a newline appended
+//
+const addNewline = (str) => str + '\n'
 
-let addnewline = (str) => str + "\n"
-let terms = Format.args()
+// The search terms to use in the query
+// (provided by the user)
+//
+const terms = Format.args()
 
+// Main program
+//
 Promise.coroutine(function *() {
   Output.progress('Finding latest story...')
 
   let header = [
-    addnewline(yield WhosHiring.url()),
-    addnewline(yield WhosHiring.title())
+    addNewline(yield WhosHiring.url()),
+    addNewline(yield WhosHiring.title())
   ]
 
   Output.progress(`Finding matches for: ${terms}`)
 
   let matches = yield WhosHiring.matches(terms)
-  let results = matches.map(r => Format.html(r))
+  let results = matches.map((r) => Format.html(r))
 
   Output.data(header.concat(results).join(''))
 })()
