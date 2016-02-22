@@ -5,17 +5,43 @@
 whoshiring
 ==========
 
-Search the latest Hacker News Who's Hiring thread using the algolia search api.
+Search the latest Hacker News Who is Hiring thread using the Algolia search api.
 
 status
 ------
 
-Pre-release -- use at your own risk
+Pre-release -- use at your own risk.
 
-Usage
+(seems to be working ok though)
+
+installation
+-----
+
+For the current git version:
+
+```
+git clone https://www.github.com/ziel/whoshiring
+cd whoshiring
+npm install -g
+```
+
+Simpler installation of stable releases will be a thing... once there are stable releases.
+
+usage
 -----
 ```
-./whoshiring my search terms
+whoshiring my search terms
 ```
 
+Here are some example searches:
 
+```
+whoshiring austin tx
+whoshiring elixir
+whoshiring java london
+```
+
+notes
+-----
+
+`whoshiring` tries to find the latest thread posted to Hacker News using a heuristic. It may fail sometime in the future. The title and url of the article being searched is always printed first, and is worth peeking at.
