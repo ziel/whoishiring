@@ -57,12 +57,10 @@ describe('Format', function () {
       const limits = [ 20, 27, 78, 123, 13 ]
 
       for (let limit of limits) {
-        // allowed is fuzzy: wrapping isn't exact
-        const allowed = limit + 5
         const formatted = Format.html(input, limit)
 
         for (let line of formatted.split('\n')) {
-          expect(line.length).to.be.below(allowed)
+          expect(line.length).to.be.at.most(limit)
         }
       }
     })
