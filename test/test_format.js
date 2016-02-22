@@ -16,15 +16,10 @@ const Format = require('../lib/format')
 //
 // @return {string}
 // A string of alternating chars and spaces at the given length
-// (Length is exact for even requests, -1 for odd requests)
 //
 let genstring = function (length) {
   let count = Math.floor(length / 2)
-  let result = ''
-
-  while (count--) {
-    result += 'A '
-  }
+  let result = 'A '.repeat(count)
 
   if (length % 2 !== 0) {
     result += 'A'
