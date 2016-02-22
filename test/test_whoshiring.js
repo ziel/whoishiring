@@ -85,7 +85,6 @@ describe('WhosHiring', function () {
         .url()
         .then((url) => {
           expect(url).to.match(new RegExp(`${mockObjectID}`))
-          sinon.assert.calledOnce(stubSearch)
         })
     })
   })
@@ -108,7 +107,6 @@ describe('WhosHiring', function () {
         .title()
         .then((title) => {
           expect(title).to.equal(mockTitle)
-          sinon.assert.calledOnce(stubSearch)
         })
     })
   })
