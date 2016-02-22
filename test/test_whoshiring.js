@@ -11,25 +11,29 @@ describe('WhosHiring', function () {
   // Fixtures
   // -------------------------------------------------------------
 
-  const mock_objectID = 123
-  const mock_title = 'title text'
-  const search_terms = 'search terms'
+  const mockObjectID = 123
+  const mockTitle = 'title text'
+  const searchTerms = 'search terms'
 
-  const mock_storysearch = Promise.resolve({
+  // Fake story result
+  //
+  const mockStorySearch = Promise.resolve({
     hits: [{
-      objectID: mock_objectID,
-      title: mock_title
+      objectID: mockObjectID,
+      title: mockTitle
     }]
   })
 
-  const mock_matches = [
+  // Fake matches result
+  //
+  const mockMatches = [
     { comment_text: 'first comment' },
     { comment_text: 'second comment' },
     { comment_text: 'third comment' }
   ]
 
-  const mock_matchessearch = Promise.resolve({
-    hits: mock_matches
+  const mockMatchesSearch = Promise.resolve({
+    hits: mockMatches
   })
 
   // -------------------------------------------------------------
@@ -41,22 +45,22 @@ describe('WhosHiring', function () {
     useFakeServer: false
   })
 
-  let spy_url
-  let spy_title
-  let stub_search
+  let spyURL
+  let spyTitle
+  let stubSearch
 
   beforeEach(function () {
-    spy_url = sinonbox.spy(WhosHiring, 'url')
-    spy_title = sinonbox.spy(WhosHiring, 'title')
+    spyURL = sinonbox.spy(WhosHiring, 'url')
+    spyTitle = sinonbox.spy(WhosHiring, 'title')
 
-    stub_search = sinonbox.stub(HNSearch, 'searchAsync')
-    stub_search.returns(mock_storysearch)
-    stub_search.withArgs(search_terms).returns(mock_matchessearch)
+    stubSearch = sinonbox.stub(HNSearch, 'searchAsync')
+    stubSearch.returns(mockStorySearch)
+    stubSearch.withArgs(searchTerms).returns(mockMatchesSearch)
   })
 
   afterEach(function () {
     sinonbox.restore()
-    WhosHiring.reset_story_cache()
+    WhosHiring.resetStoryCache()
   })
 
   // -------------------------------------------------------------
@@ -71,17 +75,17 @@ describe('WhosHiring', function () {
         .then(WhosHiring.url)
         .then(WhosHiring.url)
         .then((url) => {
-          sinon.assert.calledThrice(spy_url)
-          sinon.assert.calledOnce(stub_search)
+          sinon.assert.calledThrice(spyURL)
+          sinon.assert.calledOnce(stubSearch)
         })
     })
 
-    it('should return a url with the mock_objectID', function () {
+    it('should return a url with the mockObjectID', function () {
       return WhosHiring
         .url()
         .then((url) => {
-          expect(url).to.match(new RegExp(`${mock_objectID}`))
-          sinon.assert.calledOnce(stub_search)
+          expect(url).to.match(new RegExp(`${mockObjectID}`))
+          sinon.assert.calledOnce(stubSearch)
         })
     })
   })
@@ -94,17 +98,17 @@ describe('WhosHiring', function () {
         .then(WhosHiring.title)
         .then(WhosHiring.title)
         .then((url) => {
-          sinon.assert.calledThrice(spy_title)
-          sinon.assert.calledOnce(stub_search)
+          sinon.assert.calledThrice(spyTitle)
+          sinon.assert.calledOnce(stubSearch)
         })
     })
 
-    it('should return a title with the mock_title', function () {
+    it('should return a title with the mockTitle', function () {
       return WhosHiring
         .title()
         .then((title) => {
-          expect(title).to.equal(mock_title)
-          sinon.assert.calledOnce(stub_search)
+          expect(title).to.equal(mockTitle)
+          sinon.assert.calledOnce(stubSearch)
         })
     })
   })
@@ -112,15 +116,15 @@ describe('WhosHiring', function () {
   describe('WhosHiring.matches(terms)', function () {
     it('should return all matches ', function () {
       return WhosHiring
-        .matches(search_terms)
+        .matches(searchTerms)
         .then((results) => {
-          expect(results.length).to.equal(mock_matches.length)
+          expect(results.length).to.equal(mockMatches.length)
         })
     })
 
     it('should return matches as strings', function () {
       return WhosHiring
-        .matches(search_terms)
+        .matches(searchTerms)
         .then((results) => {
           results.forEach((result) => {
             expect(result).to.be.a('string')
@@ -129,10 +133,10 @@ describe('WhosHiring', function () {
     })
 
     it('should return matches from fixture', function () {
-      const expected = mock_matches.map((m) => m.comment_text)
+      const expected = mockMatches.map((m) => m.comment_text)
 
       return WhosHiring
-        .matches(search_terms)
+        .matches(searchTerms)
         .then((results) => {
           expect(results).to.deep.equal(expected)
         })

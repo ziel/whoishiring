@@ -17,16 +17,16 @@ describe('Output', function () {
     useFakeServer: false
   })
 
-  let spinner_start
-  let spinner_title
-  let output_spawn
-  let output_println
+  let stubSpinnerStart
+  let stubSpinnerTitle
+  let stubOutputSpawn
+  let stubOutputPrintln
 
   beforeEach(function () {
-    output_println = sinonbox.stub(Output, '_println')
-    spinner_start = sinonbox.stub(Spinner.prototype, 'start')
-    spinner_title = sinonbox.stub(Spinner.prototype, 'setSpinnerTitle')
-    output_spawn = sinonbox.stub(ChildProcess, 'spawn').returns({
+    stubOutputPrintln = sinonbox.stub(Output, '_println')
+    stubSpinnerStart = sinonbox.stub(Spinner.prototype, 'start')
+    stubSpinnerTitle = sinonbox.stub(Spinner.prototype, 'setSpinnerTitle')
+    stubOutputSpawn = sinonbox.stub(ChildProcess, 'spawn').returns({
       stdin: {
         write: sinonbox.stub(),
         end: sinonbox.stub()
@@ -45,7 +45,7 @@ describe('Output', function () {
   it('should not display progress unless interactive', function () {
     process.stdout.isTTY = false
     Output.progress('test progress message')
-    sinon.assert.notCalled(spinner_title)
+    sinon.assert.notCalled(stubSpinnerTitle)
   })
 
   it('should only start spinning once', function () {
@@ -58,7 +58,7 @@ describe('Output', function () {
     Output.progress('test progress message 2')
     Output.progress('test progress message 3')
 
-    sinon.assert.calledOnce(spinner_start)
+    sinon.assert.calledOnce(stubSpinnerStart)
   })
 
   it('should spawn a pager when interactive', function () {
@@ -66,7 +66,7 @@ describe('Output', function () {
     process.env.PAGER = 'pager'
 
     Output.data('test data')
-    sinon.assert.called(output_spawn)
+    sinon.assert.called(stubOutputSpawn)
   })
 
   it('should not spawn a pager when PAGER isn\'t set', function () {
@@ -74,7 +74,7 @@ describe('Output', function () {
     delete process.env.PAGER
 
     Output.data('test data')
-    sinon.assert.notCalled(output_spawn)
+    sinon.assert.notCalled(stubOutputSpawn)
   })
 
   it('should print to stdout when PAGER isn\'t set', function () {
@@ -82,7 +82,7 @@ describe('Output', function () {
     delete process.env.PAGER
 
     Output.data('test data')
-    sinon.assert.called(output_println)
+    sinon.assert.called(stubOutputPrintln)
   })
 
   it('should not spawn a pager when not interactive', function () {
@@ -90,7 +90,7 @@ describe('Output', function () {
     process.env.PAGER = 'pager'
 
     Output.data('test data')
-    sinon.assert.notCalled(output_spawn)
+    sinon.assert.notCalled(stubOutputSpawn)
   })
 
   it('should print to stdout when not interactive', function () {
@@ -98,6 +98,6 @@ describe('Output', function () {
     process.env.PAGER = 'pager'
 
     Output.data('test data')
-    sinon.assert.called(output_println)
+    sinon.assert.called(stubOutputPrintln)
   })
 })
