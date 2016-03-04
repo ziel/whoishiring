@@ -45,15 +45,7 @@ describe('WhosHiring', function () {
     useFakeServer: false
   })
 
-  // Holds spies for WhosHiring methods which
-  // can be used in tests below.
-  //
-  // @see beforeEach() for setup below
-  //
-  let spyWhosHiring = {}
-
-  // Before each test, stub HNSearch methods
-  // and refresh spies for spyWhosHiring
+  // Before each test, stub and spy HNSearch methods
   //
   // Spies and Stubs notes:
   //   HNSearch.searchAsync is stubbed to provide
@@ -71,10 +63,8 @@ describe('WhosHiring', function () {
       .withArgs(searchTerms)
       .returns(mockMatchesSearch)
 
-    const url = sinonbox.spy(WhosHiring, 'url')
-    const title = sinonbox.spy(WhosHiring, 'title')
-
-    spyWhosHiring = {url, title, searchAsync}
+    sinonbox.spy(WhosHiring, 'url')
+    sinonbox.spy(WhosHiring, 'title')
   })
 
   afterEach(function () {
@@ -94,8 +84,8 @@ describe('WhosHiring', function () {
         .then(WhosHiring.url)
         .then(WhosHiring.url)
         .then((url) => {
-          sinon.assert.calledThrice(spyWhosHiring.url)
-          sinon.assert.calledOnce(spyWhosHiring.searchAsync)
+          sinon.assert.calledThrice(WhosHiring.url)
+          sinon.assert.calledOnce(HNSearch.searchAsync)
         })
     })
 
@@ -116,8 +106,8 @@ describe('WhosHiring', function () {
         .then(WhosHiring.title)
         .then(WhosHiring.title)
         .then((url) => {
-          sinon.assert.calledThrice(spyWhosHiring.title)
-          sinon.assert.calledOnce(spyWhosHiring.searchAsync)
+          sinon.assert.calledThrice(WhosHiring.title)
+          sinon.assert.calledOnce(HNSearch.searchAsync)
         })
     })
 
