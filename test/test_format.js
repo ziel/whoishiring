@@ -17,15 +17,11 @@ const Format = require('../lib/format')
 // @return {string}
 // A string of alternating chars and spaces at the given length
 //
-let genstring = function (length) {
-  let count = Math.floor(length / 2)
-  let result = 'A '.repeat(count)
+let mkstring = function (length) {
+  const extra = (length % 2 === 0) ? '' : 'A'
+  const half = Math.floor(length / 2)
 
-  if (length % 2 !== 0) {
-    result += 'A'
-  }
-
-  return result
+  return 'A '.repeat(half) + extra
 }
 
 // ---------------------------------------------------------------
@@ -53,7 +49,7 @@ describe('Format', function () {
     })
 
     it('should wrap to n chars if asked', function () {
-      const input = genstring(200)
+      const input = mkstring(200)
       const limits = [ 20, 27, 78, 123, 13 ]
 
       limits.forEach((limit) => {
