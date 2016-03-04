@@ -12,30 +12,25 @@ describe('Output', function () {
   // Sinon sandbox setup/teardown
   // -------------------------------------------------------------
 
-  let sinonbox = sinon.sandbox.create({
+  const sandbox = sinon.sandbox.create({
     useFakeTimers: false,
     useFakeServer: false
   })
 
-  let stubSpinnerStart
-  let stubSpinnerTitle
-  let stubOutputSpawn
-  let stubOutputPrintln
-
   beforeEach(function () {
-    stubOutputPrintln = sinonbox.stub(Output, 'println')
-    stubSpinnerStart = sinonbox.stub(Spinner.prototype, 'start')
-    stubSpinnerTitle = sinonbox.stub(Spinner.prototype, 'setSpinnerTitle')
-    stubOutputSpawn = sinonbox.stub(ChildProcess, 'spawn').returns({
+    sandbox.stub(Output, 'println')
+    sandbox.stub(Spinner.prototype, 'start')
+    sandbox.stub(Spinner.prototype, 'setSpinnerTitle')
+    sandbox.stub(ChildProcess, 'spawn').returns({
       stdin: {
-        write: sinonbox.stub(),
-        end: sinonbox.stub()
+        write: sandbox.stub(),
+        end: sandbox.stub()
       }
     })
   })
 
   afterEach(function () {
-    sinonbox.restore()
+    sandbox.restore()
   })
 
   // -------------------------------------------------------------
@@ -45,20 +40,25 @@ describe('Output', function () {
   it('should not display progress unless interactive', function () {
     process.stdout.isTTY = false
     Output.progress('test progress message')
-    sinon.assert.notCalled(stubSpinnerTitle)
+    sinon.assert.notCalled(Spinner.prototype.setSpinnerTitle)
   })
 
-  it('should only start spinning once', function () {
+  it('should not start spinning when already spinning', function () {
     process.stdout.isTTY = true
-    let spinning = sinonbox.stub(Spinner.prototype, 'isSpinning')
-    spinning.onCall(0).returns(false)
-    spinning.returns(true)
+
+    const spinning = sandbox
+      .stub(Spinner.prototype, 'isSpinning')
+      .returns(true)
+
+    spinning
+      .onCall(0)
+      .returns(false)
 
     Output.progress('test progress message 1')
     Output.progress('test progress message 2')
     Output.progress('test progress message 3')
 
-    sinon.assert.calledOnce(stubSpinnerStart)
+    sinon.assert.calledOnce(Spinner.prototype.start)
   })
 
   it('should spawn a pager when interactive', function () {
@@ -66,7 +66,7 @@ describe('Output', function () {
     process.env.PAGER = 'pager'
 
     Output.data('test data')
-    sinon.assert.called(stubOutputSpawn)
+    sinon.assert.called(ChildProcess.spawn)
   })
 
   it('should not spawn a pager when PAGER isn\'t set', function () {
@@ -74,7 +74,7 @@ describe('Output', function () {
     delete process.env.PAGER
 
     Output.data('test data')
-    sinon.assert.notCalled(stubOutputSpawn)
+    sinon.assert.notCalled(ChildProcess.spawn)
   })
 
   it('should print to stdout when PAGER isn\'t set', function () {
@@ -82,7 +82,7 @@ describe('Output', function () {
     delete process.env.PAGER
 
     Output.data('test data')
-    sinon.assert.called(stubOutputPrintln)
+    sinon.assert.called(Output.println)
   })
 
   it('should not spawn a pager when not interactive', function () {
@@ -90,7 +90,7 @@ describe('Output', function () {
     process.env.PAGER = 'pager'
 
     Output.data('test data')
-    sinon.assert.notCalled(stubOutputSpawn)
+    sinon.assert.notCalled(ChildProcess.spawn)
   })
 
   it('should print to stdout when not interactive', function () {
@@ -98,6 +98,6 @@ describe('Output', function () {
     process.env.PAGER = 'pager'
 
     Output.data('test data')
-    sinon.assert.called(stubOutputPrintln)
+    sinon.assert.called(Output.println)
   })
 })
