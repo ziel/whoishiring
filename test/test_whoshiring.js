@@ -2,7 +2,7 @@
 /* eslint-env node, mocha */
 
 const expect = require('chai').expect
-const sinon = require('sinon')
+const Sinon = require('sinon')
 const WhosHiring = require('../lib/whoshiring')
 const HNSearch = require('hacker-news-api')
 
@@ -40,7 +40,7 @@ describe('WhosHiring', function () {
   // Sinon sandbox setup/teardown
   // -------------------------------------------------------------
 
-  const sandbox = sinon.sandbox.create({
+  const sandbox = Sinon.sandbox.create({
     useFakeTimers: false,
     useFakeServer: false
   })
@@ -84,8 +84,8 @@ describe('WhosHiring', function () {
         .then(WhosHiring.url)
         .then(WhosHiring.url)
         .then((url) => {
-          sinon.assert.calledThrice(WhosHiring.url)
-          sinon.assert.calledOnce(HNSearch.searchAsync)
+          Sinon.assert.calledThrice(WhosHiring.url)
+          Sinon.assert.calledOnce(HNSearch.searchAsync)
         })
     })
 
@@ -106,8 +106,8 @@ describe('WhosHiring', function () {
         .then(WhosHiring.title)
         .then(WhosHiring.title)
         .then((url) => {
-          sinon.assert.calledThrice(WhosHiring.title)
-          sinon.assert.calledOnce(HNSearch.searchAsync)
+          Sinon.assert.calledThrice(WhosHiring.title)
+          Sinon.assert.calledOnce(HNSearch.searchAsync)
         })
     })
 
