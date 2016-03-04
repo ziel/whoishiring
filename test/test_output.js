@@ -23,7 +23,7 @@ describe('Output', function () {
   let stubOutputPrintln
 
   beforeEach(function () {
-    stubOutputPrintln = sinonbox.stub(Output, '_println')
+    stubOutputPrintln = sinonbox.stub(Output, 'println')
     stubSpinnerStart = sinonbox.stub(Spinner.prototype, 'start')
     stubSpinnerTitle = sinonbox.stub(Spinner.prototype, 'setSpinnerTitle')
     stubOutputSpawn = sinonbox.stub(ChildProcess, 'spawn').returns({
