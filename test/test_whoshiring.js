@@ -40,7 +40,7 @@ describe('WhosHiring', function () {
   // Sinon sandbox setup/teardown
   // -------------------------------------------------------------
 
-  const sinonbox = sinon.sandbox.create({
+  const sandbox = sinon.sandbox.create({
     useFakeTimers: false,
     useFakeServer: false
   })
@@ -55,7 +55,7 @@ describe('WhosHiring', function () {
   //   WhosHiring.title is spied
   //
   beforeEach(function () {
-    const searchAsync = sinonbox
+    const searchAsync = sandbox
       .stub(HNSearch, 'searchAsync')
       .returns(mockStorySearch)
 
@@ -63,12 +63,12 @@ describe('WhosHiring', function () {
       .withArgs(searchTerms)
       .returns(mockMatchesSearch)
 
-    sinonbox.spy(WhosHiring, 'url')
-    sinonbox.spy(WhosHiring, 'title')
+    sandbox.spy(WhosHiring, 'url')
+    sandbox.spy(WhosHiring, 'title')
   })
 
   afterEach(function () {
-    sinonbox.restore()
+    sandbox.restore()
     WhosHiring.resetStoryCache()
   })
 
