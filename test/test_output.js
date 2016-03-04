@@ -23,6 +23,7 @@ describe('Output', function () {
     sandbox.stub(Spinner.prototype, 'setSpinnerTitle')
     sandbox.stub(ChildProcess, 'spawn').returns({
       stdin: {
+        on: sandbox.stub(),
         write: sandbox.stub(),
         end: sandbox.stub()
       }
