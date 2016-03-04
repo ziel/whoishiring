@@ -69,7 +69,7 @@ describe('WhosHiring', function () {
 
   afterEach(function () {
     sandbox.restore()
-    WhosHiring.resetStoryCache()
+    WhosHiring.clearCache()
   })
 
   // -------------------------------------------------------------
