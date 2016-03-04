@@ -17,16 +17,16 @@ const terms = Format.args()
 Promise.coroutine(function *() {
   Output.progress('Finding latest story...')
 
-  let meta = [
+  const meta = [
     yield WhosHiring.url(),
     yield WhosHiring.title()
   ]
 
   Output.progress(`Finding matches for: ${terms}`)
 
-  let matches = yield WhosHiring.matches(terms)
-  let results = matches.map((r) => Format.html(r))
-  let header = meta.join('\n')
+  const matches = yield WhosHiring.matches(terms)
+  const results = matches.map((r) => Format.html(r))
+  const header = meta.join('\n')
 
   Output.data(header + results.join(''))
 })()
