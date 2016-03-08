@@ -15,7 +15,8 @@
     "bluebird": "^3.2.1",
     "cli-spinner": "^0.2.4",
     "hacker-news-api": "^2.0.0",
-    "html2plaintext": "^1.0.1",
+    "html-to-text": "^2.0.0",
+    "sanitize-html": "^1.11.3",
     "word-wrap": "^1.1.0"
   },
   "devDependencies": {
