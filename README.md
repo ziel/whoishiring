@@ -13,7 +13,7 @@ installation
 This wants [npm](https://www.npmjs.com/).
 
 ```
-npm install whoishiring
+npm install -g whoishiring
 ```
 
 usage
