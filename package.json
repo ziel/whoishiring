@@ -1,6 +1,6 @@
 {
   "name": "whoishiring",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "CLI util to search the latest Who's Hiring thread on Hacker News",
   "bin": "./main.js",
   "scripts": {
