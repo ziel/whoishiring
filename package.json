@@ -1,7 +1,7 @@
 {
-  "name": "whoshiring",
+  "name": "whoishiring",
   "version": "1.0.0",
-  "description": "Search the latest Hacker News Who's Hiring thread",
+  "description": "CLI util to search the latest Who's Hiring thread on Hacker News",
   "bin": "./main.js",
   "scripts": {
     "lint": "strict-standard",
