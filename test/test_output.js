@@ -17,8 +17,16 @@ describe('Output', function () {
     useFakeServer: false
   })
 
+  // Fake console output for use in output/console tests
+  //
+  // n.b. This is configured once and then reset between tests,
+  //      as the Output module never needs to print to the
+  //      console during testing.
+  //
+  const fakeConsoleOut = Sinon.stub()
+  Output.setOutputFn(fakeConsoleOut)
+
   beforeEach(function () {
-    sandbox.stub(Output, 'println')
     sandbox.stub(Spinner.prototype, 'start')
     sandbox.stub(Spinner.prototype, 'setSpinnerTitle')
     sandbox.stub(ChildProcess, 'spawn').returns({
@@ -31,6 +39,7 @@ describe('Output', function () {
   })
 
   afterEach(function () {
+    fakeConsoleOut.reset()
     sandbox.restore()
   })
 
@@ -82,8 +91,10 @@ describe('Output', function () {
     process.stdout.isTTY = true
     delete process.env.PAGER
 
+    Sinon.assert.notCalled(fakeConsoleOut)
+
     Output.data('test data')
-    Sinon.assert.called(Output.println)
+    Sinon.assert.called(fakeConsoleOut)
   })
 
   it('should not spawn a pager when not interactive', function () {
@@ -98,7 +109,9 @@ describe('Output', function () {
     process.stdout.isTTY = false
     process.env.PAGER = 'pager'
 
+    Sinon.assert.notCalled(fakeConsoleOut)
+
     Output.data('test data')
-    Sinon.assert.called(Output.println)
+    Sinon.assert.called(fakeConsoleOut)
   })
 })
