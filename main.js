@@ -25,7 +25,7 @@ Promise.coroutine(function *() {
   Output.progress(`Finding matches for: ${terms}`)
 
   const matches = yield WhosHiring.matches(terms)
-  const results = matches.map((r) => Format.html(r))
+  const results = matches.map(Format.html)
   const header = meta.join('\n')
 
   Output.data(header + results.join(''))

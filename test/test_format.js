@@ -29,6 +29,21 @@ let mkstring = function (length) {
 // ---------------------------------------------------------------
 
 describe('Format', function () {
+  // -------------------------------------------------------------
+  // Test Setup
+  // -------------------------------------------------------------
+
+  // Cleanup.
+  // Resets Format's max width
+  //
+  afterEach(function () {
+    Format.setMaxWidth(0)
+  })
+
+  // -------------------------------------------------------------
+  // Tests
+  // -------------------------------------------------------------
+
   describe('Format.args', function () {
     it('should join argv[2:] into a string', function () {
       process.argv = ['bad', 'worse', 'ok1', 'ok2', 'ok3']
@@ -53,7 +68,9 @@ describe('Format', function () {
       const limits = [ 20, 27, 78, 123, 13 ]
 
       limits.forEach((limit) => {
-        const formatted = Format.html(input, limit)
+        Format.setMaxWidth(limit)
+
+        const formatted = Format.html(input)
         const lines = formatted.split('\n')
 
         lines.forEach((line) => {
